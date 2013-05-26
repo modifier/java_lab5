@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ListResourceBundle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,11 +14,17 @@ import java.net.InetAddress;
 public class PointHandler extends Thread {
     private DatagramPacket packet;
     private DatagramSocket socket;
-    private MarkCollection marks;
+    private ListResourceBundle locale;
 
     public PointHandler(DatagramPacket packet, DatagramSocket socket) {
         this.packet = packet;
         this.socket = socket;
+    }
+
+    public PointHandler setLocale(ListResourceBundle locale) {
+        this.locale = locale;
+
+        return this;
     }
 
     public void run() {
@@ -41,7 +48,7 @@ public class PointHandler extends Thread {
             prepareAnswer(result);
         }
         catch (IOException e) {
-            ServerLogger.log("Data IO error.");
+            ServerLogger.log((String)locale.getObject("IOError"));
         }
 
     }

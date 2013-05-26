@@ -1,5 +1,6 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.ListResourceBundle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,22 +12,23 @@ import java.net.DatagramSocket;
 public class ServerController {
     static int PORT = 9090;
     static int PACKET_SIZE = 24;
+    static ListResourceBundle locale = new Locale_en();
 
     public static void main(String[] args) {
         byte[] data = new byte[PACKET_SIZE];
         try {
             DatagramSocket socket = new DatagramSocket(PORT);
-            log("Port " + PORT + " is open. Establish connection.");
+            log(String.format((String)locale.getObject("ConnectionStart"), PORT));
 
             while(true) {
                 DatagramPacket packet = new DatagramPacket(data, data.length);
                 socket.receive(packet);
 
-                new PointHandler(packet, socket).start();
+                new PointHandler(packet, socket).setLocale(locale).start();
             }
         }
         catch(Exception e) {
-            ServerLogger.log("Something is wrong.");
+            ServerLogger.log((String)locale.getObject("CasualError"));
         }
     }
 
