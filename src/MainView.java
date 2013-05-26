@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ListResourceBundle;
 
 
 public class MainView {
@@ -26,7 +27,7 @@ public class MainView {
     private XPanel xlist;
     private YPanel ylist;
 
-    private JLabel data_label;
+    private ListResourceBundle locale = new Locale_en();
 
     /**
      * Create the application.
@@ -68,7 +69,7 @@ public class MainView {
                 newDots();
             }
         });
-        ylist.setLabel("Y value:");
+        ylist.setLabel(locale.getObject("YValue") + ":");
         west_panel.add(ylist, BorderLayout.NORTH);
     }
 
@@ -78,7 +79,7 @@ public class MainView {
                 newDots();
             }
         });
-        xlist.setLabel("X value:");
+        xlist.setLabel(locale.getObject("YValue") + ":");
         west_panel.add(xlist, BorderLayout.NORTH);
     }
 

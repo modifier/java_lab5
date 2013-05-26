@@ -16,6 +16,8 @@ public class Locale_en extends ListResourceBundle {
     private Object[][] contents = {
             {"CasualError", "Something is wrong."},
             {"IOError", "Data IO error."},
-            {"ConnectionStart", "Port %s is open. Establish connection."}
+            {"ConnectionStart", "Port %s is open. Establish connection."},
+            {"XValue", "X Value"},
+            {"YValue", "Y Value"}
     };
 }

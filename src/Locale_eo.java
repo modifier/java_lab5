@@ -16,6 +16,8 @@ public class Locale_eo extends ListResourceBundle {
     private Object[][] contents = {
             {"CasualError", "Ion estas malgxusta."},
             {"IOError", "Eraro de IO donitajxoj."},
-            {"ConnectionStart", "Porto %s estas apertan. Mi instalas kunigon."}
+            {"ConnectionStart", "Porto %s estas apertan. Mi instalas kunigon."},
+            {"XValue", "X Valoro"},
+            {"YValue", "Y Valoro"}
     };
 }
