@@ -25,15 +25,16 @@ public class MarkCollection extends Observable {
         }
 
         points.add(mark);
+        check();
 
         setChanged();
         notifyObservers("change");
     }
 
     public void setRadius(float radius) {
-        check(radius);
         this.radius = radius;
         area = new Area(radius);
+        check();
 
         setChanged();
         notifyObservers("change");
@@ -43,12 +44,11 @@ public class MarkCollection extends Observable {
         return radius;
     }
 
-    public void check(final float radius) {
-        final Area new_area = new Area(radius);
+    public void check() {
         forEach(new IMarkIterator() {
             @Override
             public boolean Iterate(Mark mark, boolean isInside) {
-                if(!new_area.contains(mark) && isInside) {
+                if(!isInside) {
                     setChanged();
                     notifyObservers("animate");
                     return false;

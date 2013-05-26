@@ -8,11 +8,12 @@
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 
 public class MainView {
@@ -73,8 +74,9 @@ public class MainView {
     }
 
     public void setXValues(float[] values) {
-        xlist = new XPanel(values, new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
+        xlist = new XPanel(values, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 newDots();
             }
         });
@@ -83,7 +85,7 @@ public class MainView {
     }
 
     public void setRadius(float radius) {
-        final RadiusPanel slider = new RadiusPanel(1, 30);
+        final RadiusPanel slider = new RadiusPanel(1, 20);
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 points.setRadius(slider.getValue());
@@ -94,10 +96,10 @@ public class MainView {
     }
 
     public void newDots() {
-        float y_value = ylist.getValue();
+        ArrayList<Float> y_values = ylist.getValues();
         float x_value = xlist.getValue();
-        if(!Float.isNaN(y_value) && !Float.isNaN(x_value)) {
-            Mark mark = new Mark(x_value, y_value);
+        for(int i = 0; i < y_values.size(); i++) {
+            Mark mark = new Mark(x_value, y_values.get(i));
             points.add(mark);
         }
     }

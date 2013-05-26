@@ -15,7 +15,7 @@ public class Graphic extends JPanel implements Observer {
 
     private MarkCollection points;
 
-    final boolean SCALE_POINTS_INSTEAD_OF_FIGURE = false;
+    final boolean SCALE_POINTS_INSTEAD_OF_FIGURE = true;
 
     final int WIDTH = 250;
     final int HEIGHT = 250;
@@ -33,14 +33,13 @@ public class Graphic extends JPanel implements Observer {
 
     final int POINT_RADIUS = 5;
 
-    final String BG_COLOR = "#F9FCBA"; // Light yellow
-    final String FIGURE_COLOR = "#946B51"; // Brown
+    final String BG_COLOR = "#f5f5dc"; // Bezheviy
+    final String FIGURE_COLOR = "#0000ff"; // Blue
     final String AXIS_COLOR = "#000000";
     final String MARK_INSIDE_COLOR = "#00FF00";
     final String MARK_OUTSIDE_COLOR = "#FF0000";
 
     private double point_opacity = 1;
-    private int point_radius = POINT_RADIUS;
 
     public Graphic(MarkCollection points) {
         super();
@@ -141,13 +140,13 @@ public class Graphic extends JPanel implements Observer {
 
         g.setColor(Color.decode(FIGURE_COLOR));
 
-        g.fillRect(CENTER_X, CENTER_X, -RADIUS_X, -RADIUS_Y / 2);
-        g.fillArc(CENTER_X - RADIUS_X / 2, CENTER_Y - RADIUS_Y / 2, RADIUS_X, RADIUS_Y, 0, 90);
         Polygon polygon = new Polygon();
         polygon.addPoint(CENTER_X, CENTER_Y);
-        polygon.addPoint(CENTER_X + RADIUS_X / 2, CENTER_Y);
-        polygon.addPoint(CENTER_X, CENTER_Y + RADIUS_Y);
+        polygon.addPoint(CENTER_X, CENTER_Y - RADIUS_Y / 2);
+        polygon.addPoint(CENTER_X - RADIUS_X, CENTER_Y);
         g.fillPolygon(polygon);
+        g.fillArc(CENTER_X - RADIUS_X, CENTER_Y - RADIUS_Y, RADIUS_X * 2, RADIUS_Y * 2, 180, 90);
+        g.fillRect(CENTER_X, CENTER_Y, RADIUS_X, RADIUS_Y);
     }
 
     private void drawMarks(final Graphics g) {
@@ -166,7 +165,7 @@ public class Graphic extends JPanel implements Observer {
 
         Color innercolor = Color.decode(point_inside ? MARK_INSIDE_COLOR : MARK_OUTSIDE_COLOR);
         g.setColor(new Color(innercolor.getRed(), innercolor.getGreen(), innercolor.getBlue(), (int)(point_opacity * 255)));
-        g.fillOval(X_POS - point_radius / 2, Y_POS - point_radius / 2, point_radius, point_radius);
+        g.fillOval(X_POS - POINT_RADIUS / 2, Y_POS - POINT_RADIUS / 2, POINT_RADIUS, POINT_RADIUS);
     }
 
     public void setPointFromCoords(int x, int y) {
@@ -184,24 +183,18 @@ public class Graphic extends JPanel implements Observer {
         animator = new Thread(new Runnable() {
             @Override
             public void run() {
-                float start_size = points.getRadius() / 14 * WIDTH / viewport_x;
-                float end_size = points.getRadius() / 24 * WIDTH / viewport_y;
-                final int duration = 500;
+                final int duration = 1000;
+                final int delay = 8000;
                 final int step = 5;
-                boolean grow = false;
+                final double finalOpacity = 0;
+                double startOpacity = point_opacity;
                 int counter = 0;
 
                 try {
-                    while(true) {
-                        if(counter > duration) {
-                            counter = 0;
-                            grow = !grow;
-                        }
-                        if(grow) {
-                            point_radius = (int)(start_size + (end_size - start_size) * counter / duration);
-                        } else {
-                            point_radius = (int)(start_size + (end_size - start_size) * (duration - counter) / duration);
-                        }
+                    animator.sleep(delay);
+
+                    while(counter < duration) {
+                        point_opacity = finalOpacity + (startOpacity - finalOpacity) * (duration - counter) / duration;
 
                         counter += step;
                         animator.sleep(step);
@@ -210,7 +203,7 @@ public class Graphic extends JPanel implements Observer {
                 }
                 catch (Exception e) {
                     animator = null;
-                    point_radius = POINT_RADIUS;
+                    point_opacity = 1;
                 }
             }
         });

@@ -12,12 +12,12 @@ public class Area {
     }
 
     public boolean contains(Mark m) {
-        if(m.top() && m.right()) {
-            return m.x*m.x + m.y*m.y < radius*radius / 4;
-        } else if(m.top() && (m.left() || m.middle())) {
-            return m.x > -radius && m.y < radius / 2;
-        } else if((m.bottom() || m.vmiddle()) && m.right()) {
-            return 2 * m.x - radius < m.y;
+        if((m.top() || m.vmiddle()) && m.left()) {
+            return m.y < (m.x / 2 + radius / 2);
+        } else if(m.bottom() && (m.left() || m.middle())) {
+            return (Math.pow(m.x, 2) + Math.pow(m.y, 2)) < Math.pow(radius, 2);
+        } else if(m.bottom() && m.right()) {
+            return m.x < radius && m.y > -radius;
         }
         return false;
     }
