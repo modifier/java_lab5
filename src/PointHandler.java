@@ -41,9 +41,9 @@ public class PointHandler extends Thread {
 
             distream.close();
 
-            Area area = new Area(r);
+            ServerArea serverArea = new ServerArea(r);
             Mark m = new Mark(x, y);
-            boolean result = area.contains(m);
+            boolean result = serverArea.contains(m);
 
             prepareAnswer(result);
         }
