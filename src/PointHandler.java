@@ -11,7 +11,7 @@ import java.util.ListResourceBundle;
  * Time: 0:27
  * To change this template use File | Settings | File Templates.
  */
-public class PointHandler extends Thread {
+public class PointHandler implements Runnable {
     private DatagramPacket packet;
     private DatagramSocket socket;
     private ListResourceBundle locale;
@@ -28,16 +28,15 @@ public class PointHandler extends Thread {
     }
 
     public void run() {
-        float x, y;
-        int r;
+        float x, y, r;
 
         ByteArrayInputStream istream = new ByteArrayInputStream(packet.getData());
         DataInputStream distream = new DataInputStream(istream);
 
         try {
-            x = (float)distream.readDouble();
-            y = (float)distream.readDouble();
-            r = (int)distream.readDouble();
+            x = distream.readFloat();
+            y = distream.readFloat();
+            r = distream.readFloat();
 
             distream.close();
 

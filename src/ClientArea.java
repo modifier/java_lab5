@@ -21,17 +21,18 @@ public class ClientArea {
     public MarkStatus contains(Mark m) {
         try {
             DatagramSocket socket = new DatagramSocket();
+            socket.connect(InetAddress.getLocalHost(), PORT);
 
             ByteArrayOutputStream ostream = new ByteArrayOutputStream();
             DataOutputStream dostream = new DataOutputStream(ostream);
 
-            dostream.writeDouble((double)m.x);
-            dostream.writeDouble((double)m.y);
-            dostream.writeDouble((double)radius);
+            dostream.writeFloat(m.x);
+            dostream.writeFloat(m.y);
+            dostream.writeFloat(radius);
 
             byte[] send = ostream.toByteArray();
 
-            DatagramPacket packet = new DatagramPacket(send, send.length, InetAddress.getLocalHost(), PORT);
+            DatagramPacket packet = new DatagramPacket(send, send.length);
             socket.send(packet);
             dostream.close();
 
@@ -43,6 +44,10 @@ public class ClientArea {
     }
 
     private boolean handle(DatagramSocket socket) throws IOException {
+        if(!socket.isConnected()) {
+            throw new IOException();
+        }
+
         byte[] received = new byte[1];
         DatagramPacket packet = new DatagramPacket(received, received.length);
         socket.receive(packet);
