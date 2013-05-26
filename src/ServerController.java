@@ -1,5 +1,6 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.ListResourceBundle;
 
 /**
@@ -18,13 +19,13 @@ public class ServerController {
         byte[] data = new byte[PACKET_SIZE];
         try {
             DatagramSocket socket = new DatagramSocket(PORT);
-            log(String.format((String)locale.getObject("ConnectionStart"), PORT));
+            log(String.format((String) locale.getObject("ConnectionStart"), PORT));
 
             while(true) {
                 DatagramPacket packet = new DatagramPacket(data, data.length);
                 socket.receive(packet);
 
-                new PointHandler(packet, socket).setLocale(locale).start();
+                new Thread(new PointHandler(packet, socket).setLocale(locale)).start();
             }
         }
         catch(Exception e) {
