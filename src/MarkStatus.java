@@ -1,10 +1,12 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Модификатор
- * Date: 12.05.13
- * Time: 2:19
+ * Date: 27.05.13
+ * Time: 1:34
  * To change this template use File | Settings | File Templates.
  */
-public interface IMarkIterator {
-    public boolean Iterate(Mark mark, MarkStatus isInside);
+public enum MarkStatus {
+    Inside,
+    Outside,
+    Unknown
 }

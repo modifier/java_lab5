@@ -38,6 +38,7 @@ public class Graphic extends JPanel implements Observer {
     final String AXIS_COLOR = "#000000";
     final String MARK_INSIDE_COLOR = "#00FF00";
     final String MARK_OUTSIDE_COLOR = "#FF0000";
+    final String MARK_UNKNOWN_COLOR = "#999999";
 
     private double point_opacity = 1;
     private int point_radius = POINT_RADIUS;
@@ -153,18 +154,18 @@ public class Graphic extends JPanel implements Observer {
     private void drawMarks(final Graphics g) {
         points.forEach(new IMarkIterator() {
             @Override
-            public boolean Iterate(Mark mark, boolean isInside) {
+            public boolean Iterate(Mark mark, MarkStatus isInside) {
                 drawMark(g, mark, isInside);
                 return true;
             }
         });
     }
 
-    private void drawMark(Graphics g, Mark m, boolean point_inside) {
+    private void drawMark(Graphics g, Mark m, MarkStatus position) {
         int X_POS = MARGIN_X + WIDTH / 2 + Math.round(WIDTH / viewport_x *  m.x / 2);
         int Y_POS = MARGIN_Y + HEIGHT / 2 - Math.round(HEIGHT / viewport_y * m.y / 2);
 
-        Color innercolor = Color.decode(point_inside ? MARK_INSIDE_COLOR : MARK_OUTSIDE_COLOR);
+        Color innercolor = Color.decode(position == MarkStatus.Inside ? MARK_INSIDE_COLOR : ( position == MarkStatus.Outside ? MARK_OUTSIDE_COLOR : MARK_UNKNOWN_COLOR ));
         g.setColor(new Color(innercolor.getRed(), innercolor.getGreen(), innercolor.getBlue(), (int)(point_opacity * 255)));
         g.fillOval(X_POS - point_radius / 2, Y_POS - point_radius / 2, point_radius, point_radius);
     }

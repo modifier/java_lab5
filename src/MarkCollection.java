@@ -11,7 +11,7 @@ import java.util.Observable;
 public class MarkCollection extends Observable {
     private ArrayList<Mark> points;
     private float radius;
-    private Area area;
+    private ClientArea area;
 
     public MarkCollection() {
         this.points = new ArrayList<Mark>();
@@ -33,7 +33,7 @@ public class MarkCollection extends Observable {
     public void setRadius(float radius) {
         check(radius);
         this.radius = radius;
-        area = new Area(radius);
+        area = new ClientArea(radius);
 
         setChanged();
         notifyObservers("change");
@@ -44,11 +44,11 @@ public class MarkCollection extends Observable {
     }
 
     public void check(final float radius) {
-        final Area new_area = new Area(radius);
+        final ClientArea new_area = new ClientArea(radius);
         forEach(new IMarkIterator() {
             @Override
-            public boolean Iterate(Mark mark, boolean isInside) {
-                if(!new_area.contains(mark) && isInside) {
+            public boolean Iterate(Mark mark, MarkStatus isInside) {
+                if(new_area.contains(mark) == MarkStatus.Outside && isInside == MarkStatus.Inside) {
                     setChanged();
                     notifyObservers("animate");
                     return false;

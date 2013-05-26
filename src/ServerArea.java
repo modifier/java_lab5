@@ -5,9 +5,9 @@
  * Time: 0:17
  * To change this template use File | Settings | File Templates.
  */
-public class Area {
+public class ServerArea {
     private float radius;
-    public  Area(float R) {
+    public ServerArea(float R) {
         this.radius = R;
     }
 
