@@ -1,7 +1,5 @@
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,43 +18,24 @@ public class ClientArea {
 
     public MarkStatus contains(Mark m) {
         try {
-            DatagramSocket socket = new DatagramSocket();
-            socket.connect(InetAddress.getLocalHost(), PORT);
+            Socket socket = new Socket(InetAddress.getLocalHost(), PORT);
 
-            ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-            DataOutputStream dostream = new DataOutputStream(ostream);
-
+            DataOutputStream dostream = new DataOutputStream(socket.getOutputStream());
             dostream.writeFloat(m.x);
             dostream.writeFloat(m.y);
             dostream.writeFloat(radius);
 
-            byte[] send = ostream.toByteArray();
+            DataInputStream distream = new DataInputStream(socket.getInputStream());
+            boolean result = distream.readBoolean();
 
-            DatagramPacket packet = new DatagramPacket(send, send.length);
-            socket.send(packet);
+            distream.close();
             dostream.close();
+            socket.close();
 
-            return handle(socket) ? MarkStatus.Inside : MarkStatus.Outside;
+            return result ? MarkStatus.Inside : MarkStatus.Outside;
         }
         catch (Exception e) {
             return MarkStatus.Unknown;
         }
-    }
-
-    private boolean handle(DatagramSocket socket) throws IOException {
-        if(!socket.isConnected()) {
-            throw new IOException();
-        }
-
-        byte[] received = new byte[1];
-        DatagramPacket packet = new DatagramPacket(received, received.length);
-        socket.receive(packet);
-
-        ByteArrayInputStream istream = new ByteArrayInputStream(packet.getData());
-        DataInputStream distream = new DataInputStream(istream);
-        boolean result = distream.readBoolean();
-
-        distream.close();
-        return result;
     }
 }
