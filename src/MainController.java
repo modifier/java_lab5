@@ -30,7 +30,7 @@ public class MainController {
                 locale = new Locale_en();
             } else {
                 System.out.println("Unknown locale");
-                return
+                return;
             }
         } else {
             locale = new Locale_en();
