@@ -31,16 +31,15 @@ public class PointHandler implements Runnable {
             float y = distream.readFloat();
             float r = distream.readFloat();
 
-            distream.close();
-
             ServerArea serverArea = new ServerArea(r);
             Mark m = new Mark(x, y);
             boolean result = serverArea.contains(m);
 
             DataOutputStream dostream = new DataOutputStream(socket.getOutputStream());
             dostream.writeBoolean(result);
-            dostream.close();
 
+            distream.close();
+            dostream.close();
             socket.close();
         }
         catch (IOException e) {
