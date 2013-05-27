@@ -28,12 +28,13 @@ public class MainView {
     private XPanel xlist;
     private YPanel ylist;
 
-    private ListResourceBundle locale = new Locale_en();
+    private ListResourceBundle locale;
 
     /**
      * Create the application.
      */
-    public MainView() {
+    public MainView(ListResourceBundle locale) {
+        this.locale = locale;
         initialize();
     }
 
