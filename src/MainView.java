@@ -31,6 +31,8 @@ public class MainView {
     private XPanel xlist;
     private YPanel ylist;
 
+    private JLabel data_label;
+
     private ListResourceBundle locale = new Locale_en();
 
     /**
@@ -67,6 +69,13 @@ public class MainView {
 
         west_panel = new JPanel(new FlowLayout());
         master.add(west_panel);
+
+        data_label = new JLabel();
+        west_panel.add(data_label);
+    }
+
+    public void setLabel(String label) {
+        data_label.setText(label);
     }
 
     public void setYValues(float[] values) {
