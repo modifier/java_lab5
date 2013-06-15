@@ -13,9 +13,12 @@ public class RadiusPanel extends JPanel {
     private JSpinner spinner;
 
     public RadiusPanel() {
-        super();
-        spinner = new JSpinner();
+        super(new GridLayout(2, 1));
 
+        JLabel label = new JLabel("Radius:");
+        add(label);
+
+        spinner = new JSpinner();
         add(spinner);
     }
 
