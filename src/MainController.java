@@ -22,13 +22,13 @@ public class MainController implements Observer {
 
     private Graphic graphic;
 
-    private ListResourceBundle locale = new Locale_en();
+    private ListResourceBundle locale = new Locale_ru();
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        final ListResourceBundle locale = args.length >= 1 && args[0].equals("es") ? new Locale_es() : new Locale_en();
+        final ListResourceBundle locale = args.length >= 1 && args[0].equals("es") ? new Locale_es() : new Locale_ru();
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -12,7 +12,7 @@ public class ServerController {
     static int PORT = 9090;
     static int PACKET_SIZE = 24;
     static int TIMEOUT = 500;
-    static ListResourceBundle locale = new Locale_en();
+    static ListResourceBundle locale = new Locale_ru();
 
     public static void main(String[] args) {
         if(args.length >= 1 && args[0].equals("es")) {
