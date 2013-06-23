@@ -8,6 +8,7 @@
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ListResourceBundle;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,14 +22,18 @@ public class MainController implements Observer {
 
     private Graphic graphic;
 
+    private ListResourceBundle locale = new Locale_en();
+
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+        final ListResourceBundle locale = args.length >= 1 && args[0].equals("es") ? new Locale_es() : new Locale_en();
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MainController controller = new MainController();
+                    MainController controller = new MainController(locale);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -36,7 +41,9 @@ public class MainController implements Observer {
         });
     }
 
-    public MainController() {
+    public MainController(ListResourceBundle locale) {
+        this.locale = locale;
+
         points = new MarkCollection();
         points.setRadius(15);
 
@@ -44,7 +51,7 @@ public class MainController implements Observer {
     }
 
     private void initializeWindow() {
-        window = new MainView();
+        window = new MainView(locale);
         window.setVisible();
 
         window.setPoints(points);
@@ -70,7 +77,9 @@ public class MainController implements Observer {
         String action = (String)arg;
         if(action.equals("animate") || action.equals("add")) {
             Mark last = points.last();
-            window.setLabel("Recent added point has coordinates: (" + last.x + ", " + last.y + ")");
+
+            String template = (String)locale.getObject("Position");
+            window.setLabel(String.format(template, last.x, last.y));
         }
     }
 }

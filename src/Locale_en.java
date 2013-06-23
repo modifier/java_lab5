@@ -18,6 +18,9 @@ public class Locale_en extends ListResourceBundle {
             {"IOError", "Data IO error."},
             {"ConnectionStart", "Port %s is open. Establish connection."},
             {"XValue", "X Value"},
-            {"YValue", "Y Value"}
+            {"YValue", "Y Value"}       ,
+            {"Position", "Recently added point has coordinates: (%.2f, %.2f)"},
+            {"PointSize", "Point Size"},
+            {"Radius", "Radius"}
     };
 }

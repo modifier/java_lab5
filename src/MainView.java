@@ -33,12 +33,13 @@ public class MainView {
 
     private JLabel data_label;
 
-    private ListResourceBundle locale = new Locale_en();
+    private ListResourceBundle locale;
 
     /**
      * Create the application.
      */
-    public MainView() {
+    public MainView(ListResourceBundle locale) {
+        this.locale = locale;
         initialize();
     }
 
@@ -100,7 +101,7 @@ public class MainView {
     }
 
     public void setRadius(float radius) {
-        final RadiusPanel slider = new RadiusPanel();
+        final RadiusPanel slider = new RadiusPanel(new JLabel((String)locale.getObject("Radius")));
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 points.setRadius(slider.getValue());
@@ -123,7 +124,7 @@ public class MainView {
         int size = east_panel.point_radius;
 
         JPanel panel = new JPanel(new GridLayout(2, 1));
-        JLabel label = new JLabel("Point size: ");
+        JLabel label = new JLabel(locale.getObject("PointSize") + ": ");
 
         final JSpinner size_control = new JSpinner();
         size_control.setValue(size);

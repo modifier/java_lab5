@@ -15,6 +15,10 @@ public class ServerController {
     static ListResourceBundle locale = new Locale_en();
 
     public static void main(String[] args) {
+        if(args.length >= 1 && args[0].equals("es")) {
+            locale = new Locale_es();
+        }
+
         byte[] data = new byte[PACKET_SIZE];
         try {
             ServerSocket socket = new ServerSocket(PORT);
