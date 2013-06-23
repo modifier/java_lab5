@@ -27,9 +27,9 @@ public class PointHandler implements Runnable {
         try {
             DataInputStream distream = new DataInputStream(socket.getInputStream());
 
-            float x = distream.readFloat();
-            float y = distream.readFloat();
-            float r = distream.readFloat();
+            float x = (float)distream.readDouble();
+            float y = (float)distream.readDouble();
+            float r = (float)distream.readDouble();
 
             ServerArea serverArea = new ServerArea(r);
             Mark m = new Mark(x, y);
