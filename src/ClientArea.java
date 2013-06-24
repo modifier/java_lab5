@@ -21,9 +21,9 @@ public class ClientArea {
             Socket socket = new Socket(InetAddress.getLocalHost(), PORT);
 
             DataOutputStream dostream = new DataOutputStream(socket.getOutputStream());
-            dostream.writeDouble(m.x);
-            dostream.writeDouble(m.y);
-            dostream.writeDouble(radius);
+            dostream.writeFloat(m.x);
+            dostream.writeFloat(m.y);
+            dostream.writeFloat(radius);
 
             DataInputStream distream = new DataInputStream(socket.getInputStream());
             boolean result = distream.readBoolean();
