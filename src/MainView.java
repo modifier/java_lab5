@@ -101,7 +101,7 @@ public class MainView {
     }
 
     public void setRadius(float radius) {
-        final RadiusPanel slider = new RadiusPanel(new JLabel((String)locale.getObject("Radius")));
+        final RadiusPanel slider = new RadiusPanel(new JLabel((String)locale.getObject("Radius")), 1, 50);
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 points.setRadius(slider.getValue());

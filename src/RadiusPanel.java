@@ -10,26 +10,26 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class RadiusPanel extends JPanel {
-    private JSpinner spinner;
+    private JSlider slider;
 
-    public RadiusPanel(JLabel label) {
+    public RadiusPanel(JLabel label, int min, int max) {
         super(new GridLayout(2, 1));
 
         add(label);
 
-        spinner = new JSpinner();
-        add(spinner);
+        slider = new JSlider(min, max);
+        add(slider);
     }
 
     public float getValue() {
-        return (Integer)spinner.getValue();
+        return slider.getValue();
     }
 
     public void setValue(float value) {
-        spinner.setValue((int) value);
+        slider.setValue((int) value);
     }
 
     public synchronized void addChangeListener(ChangeListener changed) {
-        spinner.addChangeListener(changed);
+        slider.addChangeListener(changed);
     }
 }
