@@ -91,8 +91,9 @@ public class MainView {
     }
 
     public void setXValues(float[] values) {
-        xlist = new XPanel(values, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        xlist = new XPanel(values, new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
                 newDots();
             }
         });
