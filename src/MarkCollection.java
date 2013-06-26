@@ -27,7 +27,6 @@ public class MarkCollection extends Observable {
         }
 
         points.add(mark);
-        mark.radius = radius / 8;
 
         setChanged();
         notifyObservers(animate_on_adding ? "animate" : "add");

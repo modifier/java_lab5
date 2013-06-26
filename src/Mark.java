@@ -9,7 +9,6 @@
 public class Mark {
     public float x;
     public float y;
-    public float radius;
 
     public Mark(float x, float y) {
         this.x = x;

@@ -123,24 +123,4 @@ public class MainView {
             }
         }
     }
-
-    public void initPointRadius() {
-        int size = east_panel.point_radius;
-
-        JPanel panel = new JPanel(new GridLayout(2, 1));
-        JLabel label = new JLabel(locale.getObject("PointSize") + ": ");
-
-        final JSpinner size_control = new JSpinner();
-        size_control.setValue(size);
-        size_control.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                east_panel.point_radius = (Integer)size_control.getValue();
-            }
-        });
-
-        panel.add(label);
-        panel.add(size_control);
-
-        west_panel.add(panel, BorderLayout.CENTER);
-    }
 }

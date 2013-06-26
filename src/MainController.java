@@ -68,8 +68,6 @@ public class MainController implements Observer {
         });
         window.setGraphic(graphic);
 
-        window.initPointRadius();
-
         points.addObserver(this);
     }
 

@@ -40,6 +40,8 @@ public class Graphic extends JPanel implements Observer {
     final String MARK_OUTSIDE_COLOR = "#FF0000";
     final String MARK_UNKNOWN_COLOR = "#999999";
 
+    Color figure_color_actual = Color.decode(FIGURE_COLOR);
+
     private double point_opacity = 1;
     public int point_radius = POINT_RADIUS;
 
@@ -140,7 +142,7 @@ public class Graphic extends JPanel implements Observer {
         int RADIUS_X = WIDTH / 2 * (int)points.getRadius() / viewport_x;
         int RADIUS_Y = HEIGHT / 2 * (int)points.getRadius() / viewport_y;
 
-        g.setColor(Color.decode(FIGURE_COLOR));
+        g.setColor(figure_color_actual);
 
         g.fillRect(CENTER_X, CENTER_X, -RADIUS_X, RADIUS_Y / 2);
         g.fillArc(CENTER_X - RADIUS_X / 2, CENTER_Y - RADIUS_Y / 2, RADIUS_X, RADIUS_Y, 90, 90);
@@ -167,7 +169,7 @@ public class Graphic extends JPanel implements Observer {
 
         Color innercolor = Color.decode(position == MarkStatus.Inside ? MARK_INSIDE_COLOR : ( position == MarkStatus.Outside ? MARK_OUTSIDE_COLOR : MARK_UNKNOWN_COLOR ));
         g.setColor(new Color(innercolor.getRed(), innercolor.getGreen(), innercolor.getBlue(), (int)(point_opacity * 255)));
-        g.fillOval((int)(X_POS - m.radius / 2), (int)(Y_POS - m.radius / 2), (int)Math.ceil(m.radius), (int)Math.ceil(m.radius));
+        g.fillOval((int)(X_POS - POINT_RADIUS / 2), (int)(Y_POS - POINT_RADIUS / 2), (int)Math.ceil(POINT_RADIUS), (int)Math.ceil(POINT_RADIUS));
     }
 
     public void setPointFromCoords(int x, int y) {
@@ -178,26 +180,49 @@ public class Graphic extends JPanel implements Observer {
     }
 
     public void animate() {
-        final Mark last = points.last();
+        if(animator != null) {
+            return;
+        }
 
         animator = new Thread(new Runnable() {
             @Override
             public void run() {
-                float start_size = last.radius;
-                float end_size = point_radius;
-                final int duration = 500;
-                final int step = 5;
+                int r = figure_color_actual.getRed();
+                int g = figure_color_actual.getGreen();
+                int b = figure_color_actual.getBlue();
 
+                float[] hsb_start = new float[3];
+                Color.RGBtoHSB(r, g, b, hsb_start);
+
+                float[] hsb_end = {hsb_start[0], 0, 1};
+
+                final int duration = 1000;
+                final int step = 5;
+                boolean grow = false;
                 int counter = 0;
 
                 try {
-                    while(counter < duration) {
-                        last.radius = (float)Math.ceil(start_size + (end_size - start_size) * counter / duration);
+                    while(counter < duration || !grow) {
+                        if(counter >= duration) {
+                            grow = !grow;
+                            counter = 0;
+                        }
+
+                        float percentage = (float)counter / (float)duration;
+                        if(grow) {
+                            percentage = 1 - percentage;
+                        }
+
+                        float saturation = (hsb_end[1] - hsb_start[1]) * percentage + hsb_start[1];
+                        float brightness = (hsb_end[2] - hsb_start[2]) * percentage + hsb_start[2];
+
+                        figure_color_actual = Color.getHSBColor(hsb_end[0], saturation, brightness);
 
                         counter += step;
                         animator.sleep(step);
                         repaint();
                     }
+                    animator = null;
                 }
                 catch (Exception e) {
                     animator = null;
