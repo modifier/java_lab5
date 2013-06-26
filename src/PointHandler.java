@@ -36,7 +36,7 @@ public class PointHandler extends Thread {
             boolean result = serverArea.contains(m);
 
             DataOutputStream dostream = new DataOutputStream(socket.getOutputStream());
-            dostream.writeBoolean(result);
+            dostream.writeInt(result ? 1 : 0);
 
             distream.close();
             dostream.close();

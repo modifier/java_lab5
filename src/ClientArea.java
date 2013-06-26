@@ -26,13 +26,13 @@ public class ClientArea {
             dostream.writeFloat(radius);
 
             DataInputStream distream = new DataInputStream(socket.getInputStream());
-            boolean result = distream.readBoolean();
+            int result = distream.readInt();
 
             distream.close();
             dostream.close();
             socket.close();
 
-            return result ? MarkStatus.Inside : MarkStatus.Outside;
+            return result != 0 ? MarkStatus.Inside : MarkStatus.Outside;
         }
         catch (Exception e) {
             return MarkStatus.Unknown;
