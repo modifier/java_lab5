@@ -25,7 +25,7 @@ public class ServerController {
             log(String.format((String) locale.getObject("ConnectionStart"), PORT));
 
             while(true) {
-                new Thread(new PointHandler(socket.accept()).setLocale(locale)).start();
+                new PointHandler(socket.accept()).setLocale(locale).start();
             }
         }
         catch(Exception e) {

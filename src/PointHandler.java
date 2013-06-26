@@ -9,7 +9,7 @@ import java.util.ListResourceBundle;
  * Time: 0:27
  * To change this template use File | Settings | File Templates.
  */
-public class PointHandler implements Runnable {
+public class PointHandler extends Thread {
     private Socket socket;
     private ListResourceBundle locale;
 
@@ -23,7 +23,7 @@ public class PointHandler implements Runnable {
         return this;
     }
 
-    public void run() {
+    public void start() {
         try {
             DataInputStream distream = new DataInputStream(socket.getInputStream());
 
