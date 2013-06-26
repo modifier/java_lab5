@@ -167,7 +167,7 @@ public class Graphic extends JPanel implements Observer {
 
         Color innercolor = Color.decode(position == MarkStatus.Inside ? MARK_INSIDE_COLOR : ( position == MarkStatus.Outside ? MARK_OUTSIDE_COLOR : MARK_UNKNOWN_COLOR ));
         g.setColor(new Color(innercolor.getRed(), innercolor.getGreen(), innercolor.getBlue(), (int)(point_opacity * 255)));
-        g.fillOval((int)(X_POS - m.radius / 2), (int)(Y_POS - m.radius / 2), (int)Math.ceil(m.radius), (int)Math.ceil(m.radius));
+        g.fillOval((int)(X_POS - POINT_RADIUS / 2), (int)(Y_POS - POINT_RADIUS / 2), (int)Math.ceil(POINT_RADIUS), (int)Math.ceil(POINT_RADIUS));
     }
 
     public void setPointFromCoords(int x, int y) {
@@ -178,21 +178,25 @@ public class Graphic extends JPanel implements Observer {
     }
 
     public void animate() {
-        final Mark last = points.last();
+        if(animator != null) {
+            return;
+        }
 
         animator = new Thread(new Runnable() {
             @Override
             public void run() {
-                float start_size = last.radius;
-                float end_size = point_radius;
-                final int duration = 500;
+                final int duration = 1000;
+                final int delay = 8000;
                 final int step = 5;
-
+                final double finalOpacity = 0;
+                double startOpacity = point_opacity;
                 int counter = 0;
 
                 try {
+                    animator.sleep(delay);
+
                     while(counter < duration) {
-                        last.radius = (float)Math.ceil(start_size + (end_size - start_size) * counter / duration);
+                        point_opacity = finalOpacity + (startOpacity - finalOpacity) * (duration - counter) / duration;
 
                         counter += step;
                         animator.sleep(step);
@@ -201,7 +205,7 @@ public class Graphic extends JPanel implements Observer {
                 }
                 catch (Exception e) {
                     animator = null;
-                    point_radius = POINT_RADIUS;
+                    point_opacity = 1;
                 }
             }
         });
