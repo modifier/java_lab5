@@ -13,11 +13,11 @@ public class ServerArea {
 
     public boolean contains(Mark m) {
         if(m.top() && m.right()) {
-            return m.x < radius && m.y < radius;
-        } else if(m.bottom() && (m.right() || m.vmiddle())) {
-            return m.x*m.x + m.y*m.y < radius*radius;
-        } else if((m.bottom() || m.middle()) && m.left()) {
-            return -2 * m.x - radius < m.y;
+            return -2 * m.x + radius > m.y;
+        } else if((m.top() || m.vmiddle()) && (m.left() || m.middle())) {
+            return m.x*m.x + m.y*m.y < radius*radius / 4;
+        } else if(m.bottom() && m.left()) {
+            return m.x > -radius && m.y > -radius / 2;
         }
         return false;
     }
