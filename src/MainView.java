@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.ListResourceBundle;
 
 
@@ -53,7 +54,7 @@ public class MainView {
 
     public void setGraphic(Graphic graphic) {
         east_panel = graphic;
-        master.add(east_panel, BorderLayout.EAST);
+        master.add(east_panel, BorderLayout.WEST);
     }
 
     /**
@@ -69,7 +70,7 @@ public class MainView {
         frame.getContentPane().add(master);
 
         west_panel = new JPanel(new FlowLayout());
-        master.add(west_panel, BorderLayout.WEST);
+        master.add(west_panel, BorderLayout.EAST);
 
         data_label = new JLabel();
         master.add(data_label, BorderLayout.NORTH);
@@ -80,14 +81,15 @@ public class MainView {
     }
 
     public void setYValues(float[] values) {
-        ylist = new YPanel(values, new ItemListener() {
+        ylist = new YPanel(values, new ActionListener() {
+
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 newDots();
             }
         });
-        ylist.setLabel(locale.getObject("YValue") + ":");
-        west_panel.add(ylist);
+        ylist.setLabel("Y value:");
+        west_panel.add(ylist, BorderLayout.NORTH);
     }
 
     public void setXValues(float[] values) {
@@ -112,31 +114,11 @@ public class MainView {
     }
 
     public void newDots() {
-        float y_value = ylist.getValue();
+        ArrayList<Float> y_values = ylist.getValues();
         float x_value = xlist.getValue();
-        if(!Float.isNaN(y_value) && !Float.isNaN(x_value)) {
-            Mark mark = new Mark(x_value, y_value);
+        for(int i = 0; i < y_values.size(); i++) {
+            Mark mark = new Mark(x_value, y_values.get(i));
             points.add(mark);
         }
-    }
-
-    public void initPointRadius() {
-        int size = east_panel.point_radius;
-
-        JPanel panel = new JPanel(new GridLayout(2, 1));
-        JLabel label = new JLabel(locale.getObject("PointSize") + ": ");
-
-        final JSpinner size_control = new JSpinner();
-        size_control.setValue(size);
-        size_control.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                east_panel.point_radius = (Integer)size_control.getValue();
-            }
-        });
-
-        panel.add(label);
-        panel.add(size_control);
-
-        west_panel.add(panel, BorderLayout.CENTER);
     }
 }

@@ -16,7 +16,7 @@ public class XPanel extends JPanel {
     private float[] values;
 
     public XPanel(float[] values, ListSelectionListener changed) {
-        super(new GridLayout(0, 1));
+        super(new GridLayout(1, 1));
 
         this.values = values;
 
@@ -41,9 +41,6 @@ public class XPanel extends JPanel {
     }
 
     public float getValue() {
-        if(x_group.getSelectedIndex() != -1) {
-            return values[x_group.getSelectedIndex()];
-        }
-        return Float.NaN;
+        return values[x_group.getSelectedIndex()];
     }
 }

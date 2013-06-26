@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
@@ -12,24 +13,22 @@ import java.util.ArrayList;
  */
 public class YPanel extends JPanel {
     private JLabel label;
-    private ArrayList<JRadioButton> checkBoxes;
+    private ArrayList<JRadioButton> rb;
     private float[] values;
 
-    public YPanel(float[] values, ItemListener changed) {
+    public YPanel(float[] values, ActionListener changed) {
         super(new GridLayout(0, 1));
         this.values = values;
 
         label = new JLabel();
         this.add(label);
 
-        ButtonGroup group = new ButtonGroup();
-        checkBoxes = new ArrayList<JRadioButton>();
+        rb = new ArrayList<JRadioButton>();
 
         for(int i = 0; i < values.length; i++) {
             JRadioButton btn = new JRadioButton(Float.toString(values[i]));
-            btn.addItemListener(changed);
-            checkBoxes.add(btn);
-            group.add(btn);
+            btn.addActionListener(changed);
+            rb.add(btn);
 
             this.add(btn);
         }
@@ -39,12 +38,14 @@ public class YPanel extends JPanel {
         this.label.setText(label);
     }
 
-    public float getValue() {
-        for(int i = 0; i < checkBoxes.size(); i++) {
-            if(checkBoxes.get(i).isSelected()) {
-                return values[i];
+    public ArrayList<Float> getValues() {
+        ArrayList<Float> result = new ArrayList<Float>();
+        for(int i = 0; i < rb.size(); i++) {
+            if(rb.get(i).isSelected()) {
+                result.add(values[i]);
             }
         }
-        return Float.NaN;
+        return result;
     }
 }
+
