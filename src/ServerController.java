@@ -15,8 +15,8 @@ public class ServerController {
     static ListResourceBundle locale = new Locale_en();
 
     public static void main(String[] args) {
-        if(args.length >= 1 && args[0].equals("es")) {
-            locale = new Locale_es();
+        if(args.length >= 1 && args[0].equals("fr")) {
+            locale = new Locale_fr();
         }
 
         byte[] data = new byte[PACKET_SIZE];

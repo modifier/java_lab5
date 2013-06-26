@@ -28,7 +28,7 @@ public class MainController implements Observer {
      * Launch the application.
      */
     public static void main(String[] args) {
-        final ListResourceBundle locale = args.length >= 1 && args[0].equals("es") ? new Locale_es() : new Locale_en();
+        final ListResourceBundle locale = args.length >= 1 && args[0].equals("fr") ? new Locale_fr() : new Locale_en();
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
