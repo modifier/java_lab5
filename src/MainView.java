@@ -17,6 +17,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.ListResourceBundle;
+import java.util.ResourceBundle;
 
 
 public class MainView {
@@ -34,12 +35,12 @@ public class MainView {
 
     private JLabel data_label;
 
-    private ListResourceBundle locale;
+    private ResourceBundle locale;
 
     /**
      * Create the application.
      */
-    public MainView(ListResourceBundle locale) {
+    public MainView(ResourceBundle locale) {
         this.locale = locale;
         initialize();
     }

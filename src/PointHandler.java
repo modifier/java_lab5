@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.ListResourceBundle;
+import java.util.ResourceBundle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,13 +12,13 @@ import java.util.ListResourceBundle;
  */
 public class PointHandler implements Runnable {
     private Socket socket;
-    private ListResourceBundle locale;
+    private ResourceBundle locale;
 
     public PointHandler(Socket socket) {
         this.socket = socket;
     }
 
-    public PointHandler setLocale(ListResourceBundle locale) {
+    public PointHandler setLocale(ResourceBundle locale) {
         this.locale = locale;
 
         return this;

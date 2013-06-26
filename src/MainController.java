@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ListResourceBundle;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.ResourceBundle;
 
 public class MainController implements Observer {
     public float[] y_values = new float[]{-4, 2, 4};
@@ -22,13 +23,14 @@ public class MainController implements Observer {
 
     private Graphic graphic;
 
-    private ListResourceBundle locale = new Locale_ru();
+    private ResourceBundle locale;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        final ListResourceBundle locale = args.length >= 1 && args[0].equals("es") ? new Locale_es() : new Locale_ru();
+        String locale_abbr = args.length >= 1 && args[0].equals("es") ? "es" : "ru";
+        final ResourceBundle locale = ResourceBundle.getBundle("Locale_" + locale_abbr);
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -41,7 +43,7 @@ public class MainController implements Observer {
         });
     }
 
-    public MainController(ListResourceBundle locale) {
+    public MainController(ResourceBundle locale) {
         this.locale = locale;
 
         points = new MarkCollection();
