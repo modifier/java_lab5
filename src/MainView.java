@@ -15,6 +15,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.ListResourceBundle;
+import java.util.ResourceBundle;
 
 
 public class MainView {
@@ -28,12 +29,13 @@ public class MainView {
     private XPanel xlist;
     private YPanel ylist;
 
-    private ListResourceBundle locale = new Locale_en();
+    private ResourceBundle locale;
 
     /**
      * Create the application.
      */
-    public MainView() {
+    public MainView(ResourceBundle locale) {
+        this.locale = locale;
         initialize();
     }
 
@@ -70,7 +72,7 @@ public class MainView {
                 newDots();
             }
         });
-        ylist.setLabel("Y value:");
+        ylist.setLabel((String)locale.getObject("YValue"));
         west_panel.add(ylist, BorderLayout.NORTH);
     }
 
@@ -81,7 +83,7 @@ public class MainView {
                 newDots();
             }
         });
-        xlist.setLabel("X value:");
+        xlist.setLabel((String)locale.getObject("XValue"));
         west_panel.add(xlist, BorderLayout.NORTH);
     }
 

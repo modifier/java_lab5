@@ -1,5 +1,6 @@
 import java.net.*;
 import java.util.ListResourceBundle;
+import java.util.ResourceBundle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,9 +13,12 @@ public class ServerController {
     static int PORT = 9090;
     static int PACKET_SIZE = 24;
     static int TIMEOUT = 500;
-    static ListResourceBundle locale = new Locale_en();
+    static ResourceBundle locale;
 
     public static void main(String[] args) {
+        String locale_abbr = args.length >= 1 && args[0].equals("de") ? "de" : "en";
+        locale = ResourceBundle.getBundle("Locale_" + locale_abbr);
+
         byte[] data = new byte[PACKET_SIZE];
         try {
             ServerSocket socket = new ServerSocket(PORT);

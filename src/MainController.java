@@ -8,6 +8,10 @@
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ListResourceBundle;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 
 public class MainController {
     public float[] y_values = new float[]{-4, 2, 4};
@@ -17,14 +21,18 @@ public class MainController {
 
     private Graphic graphic;
 
+    private ResourceBundle locale;
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+        String locale_abbr = args.length >= 1 && args[0].equals("de") ? "de" : "en";
+        final ResourceBundle locale = ResourceBundle.getBundle("Locale_" + locale_abbr);
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MainController controller = new MainController();
+                    MainController controller = new MainController(locale);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -32,7 +40,9 @@ public class MainController {
         });
     }
 
-    public MainController() {
+    public MainController(ResourceBundle locale) {
+        this.locale = locale;
+
         points = new MarkCollection();
         points.setRadius(15);
 
@@ -40,7 +50,7 @@ public class MainController {
     }
 
     private void initializeWindow() {
-        MainView window = new MainView();
+        MainView window = new MainView(locale);
         window.setVisible();
 
         window.setPoints(points);
