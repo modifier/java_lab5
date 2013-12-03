@@ -33,13 +33,14 @@ public class Graphic extends JPanel implements Observer {
 
     final int POINT_RADIUS = 5;
 
-    final String BG_COLOR = "#F9FCBA"; // Light yellow
-    final String FIGURE_COLOR = "#946B51"; // Brown
+    final String BG_COLOR = "#ffe3a1"; // Bledno-pesochnyi
+    final String FIGURE_COLOR = "#000000"; // Black
     final String AXIS_COLOR = "#000000";
     final String MARK_INSIDE_COLOR = "#00FF00";
     final String MARK_OUTSIDE_COLOR = "#FF0000";
     final String MARK_UNKNOWN_COLOR = "#999999";
 
+    Color figure_color_actual = Color.decode(FIGURE_COLOR);
     private double point_opacity = 1;
     private int point_radius = POINT_RADIUS;
 
@@ -140,15 +141,17 @@ public class Graphic extends JPanel implements Observer {
         int RADIUS_X = WIDTH / 2 * (int)points.getRadius() / viewport_x;
         int RADIUS_Y = HEIGHT / 2 * (int)points.getRadius() / viewport_y;
 
-        g.setColor(Color.decode(FIGURE_COLOR));
+        g.setColor(figure_color_actual);
 
-        g.fillRect(CENTER_X, CENTER_X, -RADIUS_X, -RADIUS_Y / 2);
-        g.fillArc(CENTER_X - RADIUS_X / 2, CENTER_Y - RADIUS_Y / 2, RADIUS_X, RADIUS_Y, 0, 90);
         Polygon polygon = new Polygon();
         polygon.addPoint(CENTER_X, CENTER_Y);
-        polygon.addPoint(CENTER_X + RADIUS_X / 2, CENTER_Y);
+        polygon.addPoint(CENTER_X + RADIUS_X, CENTER_Y);
         polygon.addPoint(CENTER_X, CENTER_Y + RADIUS_Y);
         g.fillPolygon(polygon);
+
+        g.fillArc(CENTER_X - RADIUS_X / 2, CENTER_Y - RADIUS_Y / 2, RADIUS_X, RADIUS_Y, 0, 90);
+
+        g.fillRect(CENTER_X, CENTER_Y, -RADIUS_X / 2, RADIUS_Y);
     }
 
     private void drawMarks(final Graphics g) {
@@ -185,33 +188,45 @@ public class Graphic extends JPanel implements Observer {
         animator = new Thread(new Runnable() {
             @Override
             public void run() {
-                float start_size = points.getRadius() / 14 * WIDTH / viewport_x;
-                float end_size = points.getRadius() / 24 * WIDTH / viewport_y;
-                final int duration = 500;
+                int r = figure_color_actual.getRed();
+                int g = figure_color_actual.getGreen();
+                int b = figure_color_actual.getBlue();
+
+                float[] hsb_start = new float[3];
+                Color.RGBtoHSB(r, g, b, hsb_start);
+
+                float[] hsb_end = {(float)0.116, (float)0.37, 1};
+
+                final int duration = 1000;
                 final int step = 5;
                 boolean grow = false;
                 int counter = 0;
 
                 try {
-                    while(true) {
-                        if(counter > duration) {
-                            counter = 0;
+                    while(counter < duration || !grow) {
+                        if(counter >= duration) {
                             grow = !grow;
+                            counter = 0;
                         }
+
+                        float percentage = (float)counter / (float)duration;
                         if(grow) {
-                            point_radius = (int)(start_size + (end_size - start_size) * counter / duration);
-                        } else {
-                            point_radius = (int)(start_size + (end_size - start_size) * (duration - counter) / duration);
+                            percentage = 1 - percentage;
                         }
+
+                        float saturation = (hsb_end[1] - hsb_start[1]) * percentage + hsb_start[1];
+                        float brightness = (hsb_end[2] - hsb_start[2]) * percentage + hsb_start[2];
+
+                        figure_color_actual = Color.getHSBColor(hsb_end[0], saturation, brightness);
 
                         counter += step;
                         animator.sleep(step);
                         repaint();
                     }
+                    animator = null;
                 }
                 catch (Exception e) {
                     animator = null;
-                    point_radius = POINT_RADIUS;
                 }
             }
         });
