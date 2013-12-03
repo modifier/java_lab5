@@ -7,17 +7,17 @@ import java.util.ListResourceBundle;
  * Time: 0:58
  * To change this template use File | Settings | File Templates.
  */
-public class Locale_eo extends ListResourceBundle {
+public class Locale_de extends ListResourceBundle {
     @Override
     protected Object[][] getContents() {
         return contents;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private Object[][] contents = {
-            {"CasualError", "Ion estas malgxusta."},
+            {"CasualError", "Etwas ist falsch."},
             {"IOError", "Eraro de IO donitajxoj."},
-            {"ConnectionStart", "Porto %s estas apertan. Mi instalas kunigon."},
-            {"XValue", "X Valoro"},
-            {"YValue", "Y Valoro"}
+            {"ConnectionStart", "Port %s offen ist. Verbindung herstellen."},
+            {"XValue", "X Wert"},
+            {"YValue", "Y Wert"}
     };
 }
